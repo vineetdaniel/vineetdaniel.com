@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: 'Geist', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+:root {
+  background: #ffffff;
+  color: #111111;
+}
+
+* { box-sizing: border-box; }
+
+/* Code block highlighting */
+pre { overflow-x: auto; }
+code { font-family: var(--font-mono); }
+
+/* Highlight.js theme — minimal */
+.hljs { background: #f8f8f8; color: #333; }
+.hljs-keyword { color: #2563eb; font-weight: 600; }
+.hljs-string { color: #16a34a; }
+.hljs-comment { color: #9ca3af; font-style: italic; }
+.hljs-number { color: #dc2626; }
+.hljs-function { color: #7c3aed; }
+.hljs-title { color: #7c3aed; }
+.hljs-params { color: #374151; }
+.hljs-attr { color: #2563eb; }
+.hljs-built_in { color: #ea580c; }
+.hljs-literal { color: #dc2626; }
+.hljs-type { color: #0891b2; }
+.hljs-variable { color: #374151; }
+.hljs-tag { color: #dc2626; }
