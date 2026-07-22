@@ -8,7 +8,7 @@ import { ShareButtons } from '@/components/ShareButtons'
 
 type Params = Promise<{ slug: string }>
 
-const SITE_URL = 'https://vineetdaniel.me'
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://vineetdaniel-com.vercel.app'
 
 export async function generateStaticParams() {
   try {

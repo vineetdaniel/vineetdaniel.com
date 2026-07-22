@@ -6,7 +6,7 @@ import './globals.css'
 const geist = Geist({ subsets: ['latin'], variable: '--font-geist' })
 const mono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono' })
 
-const SITE_URL = 'https://vineetdaniel.me'
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://vineetdaniel-com.vercel.app'
 
 const websiteSchema = {
   '@context': 'https://schema.org',
