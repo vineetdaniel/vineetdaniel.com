@@ -4,16 +4,22 @@ import { requireApiKey } from '@/lib/auth'
 
 type Params = Promise<{ id: string }>
 
-export async function GET(_request: NextRequest, { params }: { params: Params }) {
+export async function GET(request: NextRequest, { params }: { params: Params }) {
   const { id } = await params
 
+  // Authenticated requests can fetch drafts; public requests only see published posts.
+  const isAuthed = requireApiKey(request)
+
   const post = await db.post.findFirst({
-    where: { OR: [{ id }, { slug: id }], published: true },
+    where: { OR: [{ id }, { slug: id }], ...(isAuthed ? {} : { published: true }) },
   })
 
   if (!post) return NextResponse.json({ error: 'Not found' }, { status: 404 })
 
-  await db.post.update({ where: { id: post.id }, data: { views: { increment: 1 } } })
+  // Only count views for public reads of published posts.
+  if (post.published && !isAuthed) {
+    await db.post.update({ where: { id: post.id }, data: { views: { increment: 1 } } })
+  }
 
   return NextResponse.json({ data: post })
 }

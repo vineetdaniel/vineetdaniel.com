@@ -8,18 +8,22 @@ export async function GET(request: NextRequest) {
   const limit = Math.min(50, Math.max(1, parseInt(searchParams.get('limit') ?? '20')))
   const tag = searchParams.get('tag')
 
+  // Authenticated requests can list drafts; public requests only see published posts.
+  const isAuthed = requireApiKey(request)
+  const includeDrafts = isAuthed && searchParams.get('drafts') === 'true'
+
   const where = {
-    published: true,
+    ...(includeDrafts ? {} : { published: true }),
     ...(tag ? { tags: { has: tag } } : {}),
   }
 
   const [posts, total] = await Promise.all([
     db.post.findMany({
       where,
-      orderBy: { publishedAt: 'desc' },
+      orderBy: includeDrafts ? { createdAt: 'desc' } : { publishedAt: 'desc' },
       skip: (page - 1) * limit,
       take: limit,
-      select: { id: true, title: true, slug: true, excerpt: true, tags: true, publishedAt: true, views: true },
+      select: { id: true, title: true, slug: true, excerpt: true, tags: true, published: true, publishedAt: true, createdAt: true, views: true },
     }),
     db.post.count({ where }),
   ])
