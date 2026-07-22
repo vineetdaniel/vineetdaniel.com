@@ -72,14 +72,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
         />
         <script src="https://app.secureprivacy.ai/script/6a60c8c16a00550094f05a9a.js" async></script>
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-FHEYMCRTT2"></script>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-JBVGVTP624"></script>
         <script
           dangerouslySetInnerHTML={{
             __html: `
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
-              gtag('config', 'G-FHEYMCRTT2');
+              gtag('config', 'G-JBVGVTP624');
             `,
           }}
         />
