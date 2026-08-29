@@ -8,7 +8,8 @@
     "start": "next start",
     "db:push": "prisma db push",
     "db:generate": "prisma generate",
-    "db:studio": "prisma studio"
+    "db:studio": "prisma studio",
+    "agent:draft": "node --experimental-strip-types --env-file-if-exists=.env.local agents/draft-post.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.19.3",
