@@ -9,7 +9,9 @@
     "db:push": "prisma db push",
     "db:generate": "prisma generate",
     "db:studio": "prisma studio",
-    "agent:draft": "node --experimental-strip-types --env-file-if-exists=.env.local agents/draft-post.ts"
+    "agent:draft": "node --experimental-strip-types --env-file-if-exists=.env.local agents/draft-post.ts",
+    "agent:audit": "node --experimental-strip-types --env-file-if-exists=.env.local agents/audit.ts",
+    "agent:reformat": "node --experimental-strip-types --env-file-if-exists=.env.local agents/reformat-post.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.19.3",
