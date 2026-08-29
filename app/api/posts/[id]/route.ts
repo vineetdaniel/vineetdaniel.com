@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { db } from '@/lib/db'
+import { db, publiclyVisible } from '@/lib/db'
 import { requireApiKey } from '@/lib/auth'
 
 type Params = Promise<{ id: string }>
@@ -7,11 +7,14 @@ type Params = Promise<{ id: string }>
 export async function GET(request: NextRequest, { params }: { params: Params }) {
   const { id } = await params
 
-  // Authenticated requests can fetch drafts; public requests only see published posts.
+  // Authenticated requests can fetch drafts and scheduled posts; public
+  // requests only see posts that are published and past their publish date.
   const isAuthed = requireApiKey(request)
 
   const post = await db.post.findFirst({
-    where: { OR: [{ id }, { slug: id }], ...(isAuthed ? {} : { published: true }) },
+    where: isAuthed
+      ? { OR: [{ id }, { slug: id }] }
+      : { AND: [{ OR: [{ id }, { slug: id }] }, publiclyVisible()] },
   })
 
   if (!post) return NextResponse.json({ error: 'Not found' }, { status: 404 })

@@ -29,6 +29,34 @@ Apply these rules strictly:
 // horizontal bar, non-breaking hyphen, minus sign, small/fullwidth dashes.
 const DASHES = /[\u2010\u2011\u2012\u2013\u2014\u2015\u2212\uFE58\uFE63\uFF0D]/
 
+// Deterministic profanity backstop. The LLM pass does the nuanced work; this
+// catches obvious slips (with common leet/spacing variants) and replaces them.
+const PROFANITY = [
+  'fuck', 'fucking', 'fucked', 'motherfucker', 'shit', 'bullshit', 'shitty',
+  'bitch', 'asshole', 'ass', 'bastard', 'dick', 'piss', 'pissed', 'cunt',
+  'damn', 'goddamn', 'crap', 'slut', 'whore', 'douche', 'douchebag',
+  'wtf', 'stfu', 'bollocks', 'wanker', 'prick', 'twat',
+]
+
+/**
+ * Redact obvious profanity while preserving surrounding text. Matches whole
+ * words case-insensitively, including simple f*ck / f u c k style evasions.
+ */
+export function scrubProfanity(text: string): string {
+  let out = text
+  for (const word of PROFANITY) {
+    // Allow up to two non-word separators (*, ., spaces) BETWEEN letters only,
+    // so we don't consume the space after the word.
+    const pattern = word.split('').join('[\\W_]{0,2}')
+    out = out.replace(new RegExp(`\\b${pattern}\\b`, 'gi'), (m) => {
+      // Keep first letter, mask the rest with asterisks of matched length.
+      const letters = m.replace(/[\W_]/g, '')
+      return letters[0] + '*'.repeat(Math.max(1, letters.length - 1))
+    })
+  }
+  return out
+}
+
 /**
  * Normalize unicode dashes and dash-like whitespace to clean ASCII.
  * "No em dashes" in practice means none of the fancy unicode dashes survive.
@@ -74,11 +102,13 @@ export async function editDraft(complete: CompletionFn, draft: DraftPost): Promi
     console.warn(`   ⚠️  Editor LLM pass failed, applying rules only: ${(err as Error).message}`)
   }
 
-  // Deterministic safety net — guarantees the dash rule holds everywhere.
+  // Deterministic safety net — guarantees the dash rule holds and scrubs any
+  // obvious profanity the LLM pass may have missed.
+  const clean = (s: string) => scrubProfanity(stripDashes(s))
   return {
     ...draft,
-    title: stripDashes(draft.title),
-    excerpt: stripDashes(draft.excerpt),
-    content: stripDashes(content),
+    title: clean(draft.title),
+    excerpt: clean(draft.excerpt),
+    content: clean(content),
   }
 }

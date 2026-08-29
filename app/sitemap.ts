@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next'
-import { db } from '@/lib/db'
+import { db, publiclyVisible } from '@/lib/db'
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://vineetdaniel-com.vercel.app'
 
@@ -8,7 +8,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   try {
     posts = await db.post.findMany({
-      where: { published: true },
+      where: publiclyVisible(),
       select: { slug: true, updatedAt: true, publishedAt: true },
       orderBy: { publishedAt: 'desc' },
     })

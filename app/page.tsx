@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { db } from '@/lib/db'
+import { db, publiclyVisible } from '@/lib/db'
 import { formatDate } from '@/lib/utils'
 import { TagCloud } from '@/components/TagCloud'
 
@@ -34,7 +34,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
 
   try {
     const allPosts = await db.post.findMany({
-      where: { published: true },
+      where: publiclyVisible(),
       orderBy: { publishedAt: 'desc' },
       select: { title: true, slug: true, excerpt: true, tags: true, publishedAt: true },
     })

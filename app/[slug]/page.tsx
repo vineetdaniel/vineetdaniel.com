@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { db } from '@/lib/db'
+import { db, publiclyVisible } from '@/lib/db'
 import { formatDate, readingTime } from '@/lib/utils'
 import { PostContent } from '@/components/PostContent'
 import { ShareButtons } from '@/components/ShareButtons'
@@ -12,7 +12,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://vineetdaniel-com.v
 
 export async function generateStaticParams() {
   try {
-    const posts = await db.post.findMany({ where: { published: true }, select: { slug: true } })
+    const posts = await db.post.findMany({ where: publiclyVisible(), select: { slug: true } })
     return posts.map((p) => ({ slug: p.slug }))
   } catch {
     return []
@@ -22,7 +22,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { slug } = await params
   try {
-    const post = await db.post.findUnique({ where: { slug, published: true } })
+    const post = await db.post.findFirst({ where: { slug, ...publiclyVisible() } })
     if (!post) return {}
 
     const url = `${SITE_URL}/${slug}`
@@ -64,7 +64,7 @@ export default async function PostPage({ params }: { params: Params }) {
 
   let post
   try {
-    post = await db.post.findUnique({ where: { slug, published: true } })
+    post = await db.post.findFirst({ where: { slug, ...publiclyVisible() } })
     if (post) {
       await db.post.update({ where: { id: post.id }, data: { views: { increment: 1 } } })
     }

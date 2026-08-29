@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { db } from '@/lib/db'
+import { db, publiclyVisible } from '@/lib/db'
 import { requireApiKey } from '@/lib/auth'
 
 export async function GET(request: NextRequest) {
@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
   const includeDrafts = isAuthed && searchParams.get('drafts') === 'true'
 
   const where = {
-    ...(includeDrafts ? {} : { published: true }),
+    ...(includeDrafts ? {} : publiclyVisible()),
     ...(tag ? { tags: { has: tag } } : {}),
   }
 

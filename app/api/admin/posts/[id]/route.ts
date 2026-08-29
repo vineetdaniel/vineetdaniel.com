@@ -16,10 +16,31 @@ export async function PATCH(request: NextRequest, { params }: { params: Params }
   if (!existing) return NextResponse.json({ error: 'Not found' }, { status: 404 })
 
   const data: Record<string, unknown> = {}
+
+  // Explicit publish date: backdate (past) or schedule (future).
+  // Accepts an ISO string, or null to clear.
+  let publishedAtProvided = false
+  if ('publishedAt' in body) {
+    publishedAtProvided = true
+    if (body.publishedAt === null) {
+      data.publishedAt = null
+    } else if (typeof body.publishedAt === 'string') {
+      const d = new Date(body.publishedAt)
+      if (isNaN(d.getTime())) {
+        return NextResponse.json({ error: 'Invalid publishedAt date' }, { status: 400 })
+      }
+      data.publishedAt = d
+    }
+  }
+
   if (typeof body.published === 'boolean') {
     data.published = body.published
-    if (body.published && !existing.publishedAt) data.publishedAt = new Date()
+    // If turning on publish without an explicit date and none set yet, default to now.
+    if (body.published && !existing.publishedAt && !publishedAtProvided) {
+      data.publishedAt = new Date()
+    }
   }
+
   if (typeof body.title === 'string') data.title = body.title
   if (typeof body.excerpt === 'string') data.excerpt = body.excerpt
   if (typeof body.content === 'string') data.content = body.content
