@@ -7,10 +7,10 @@ import { TagCloud } from '@/components/TagCloud'
 export const metadata: Metadata = {
   title: 'Vineet Daniel',
   description: 'Writing on technology, engineering, AI, and building things.',
-  alternates: { canonical: process.env.NEXT_PUBLIC_SITE_URL || 'https://vineetdaniel-com.vercel.app' },
+  alternates: { canonical: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.vineetdaniel.com' },
   openGraph: {
     type: 'website',
-    url: process.env.NEXT_PUBLIC_SITE_URL || 'https://vineetdaniel-com.vercel.app',
+    url: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.vineetdaniel.com',
     title: 'Vineet Daniel — Writing',
     description: 'Writing on technology, engineering, AI, and building things.',
     siteName: 'Vineet Daniel',

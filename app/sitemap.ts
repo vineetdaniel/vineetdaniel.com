@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next'
 import { db, publiclyVisible } from '@/lib/db'
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://vineetdaniel-com.vercel.app'
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.vineetdaniel.com'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   let posts: Array<{ slug: string; updatedAt: Date; publishedAt: Date | null }> = []
