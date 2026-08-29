@@ -4,14 +4,14 @@ import { useState } from 'react'
 
 const linkStyle: React.CSSProperties = {
   fontSize: 13,
-  color: '#6b7280',
+  color: 'var(--muted)',
   textDecoration: 'none',
   fontFamily: 'var(--font-mono)',
-  background: '#f3f4f6',
-  padding: '5px 12px',
-  borderRadius: 3,
+  background: 'var(--surface-2)',
+  padding: '6px 13px',
+  borderRadius: 4,
   display: 'inline-block',
-  transition: 'color 0.15s',
+  transition: 'color 0.15s, background 0.15s',
 }
 
 export function ShareButtons({ url, title }: { url: string; title: string }) {
@@ -31,8 +31,8 @@ export function ShareButtons({ url, title }: { url: string; title: string }) {
   }
 
   return (
-    <div style={{ borderTop: '1px solid #e5e7eb', marginTop: 56, paddingTop: 24 }}>
-      <p style={{ fontSize: 12, color: '#9ca3af', fontFamily: 'var(--font-mono)', marginBottom: 12 }}>
+    <div style={{ borderTop: '1px solid var(--border)', marginTop: 56, paddingTop: 28 }}>
+      <p style={{ fontSize: 12, color: 'var(--faint)', fontFamily: 'var(--font-mono)', marginBottom: 12 }}>
         // share
       </p>
       <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
@@ -58,7 +58,7 @@ export function ShareButtons({ url, title }: { url: string; title: string }) {
             ...linkStyle,
             border: 'none',
             cursor: 'pointer',
-            color: copied ? '#16a34a' : '#6b7280',
+            color: copied ? '#0f766e' : 'var(--muted)',
           }}
         >
           {copied ? 'Copied!' : 'Copy link'}

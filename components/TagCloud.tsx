@@ -17,11 +17,11 @@ export function TagCloud({ tags, activeTag }: TagCloudProps) {
           style={{
             fontFamily: 'var(--font-mono)',
             fontSize: 11,
-            padding: '3px 10px',
-            borderRadius: 3,
+            padding: '4px 11px',
+            borderRadius: 4,
             textDecoration: 'none',
-            background: !activeTag ? '#111' : '#f3f4f6',
-            color: !activeTag ? '#fff' : '#6b7280',
+            background: !activeTag ? 'var(--ink)' : 'var(--surface-2)',
+            color: !activeTag ? '#fff' : 'var(--muted)',
           }}
         >
           all
@@ -33,11 +33,11 @@ export function TagCloud({ tags, activeTag }: TagCloudProps) {
             style={{
               fontFamily: 'var(--font-mono)',
               fontSize: 11,
-              padding: '3px 10px',
-              borderRadius: 3,
+              padding: '4px 11px',
+              borderRadius: 4,
               textDecoration: 'none',
-              background: activeTag === tag ? '#111' : '#f3f4f6',
-              color: activeTag === tag ? '#fff' : '#6b7280',
+              background: activeTag === tag ? 'var(--accent)' : 'var(--surface-2)',
+              color: activeTag === tag ? '#fff' : 'var(--muted)',
             }}
           >
             {tag}

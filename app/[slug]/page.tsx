@@ -108,39 +108,62 @@ export default async function PostPage({ params }: { params: Params }) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
       />
 
-      <article>
-        <Link href="/" style={{ fontSize: 13, color: '#9ca3af', textDecoration: 'none', display: 'inline-block', marginBottom: 32 }}>
+      <article style={{ maxWidth: 720, margin: '0 auto' }}>
+        <Link href="/" className="link-accent" style={{ fontSize: 13, color: 'var(--faint)', textDecoration: 'none', display: 'inline-block', marginBottom: 36, fontFamily: 'var(--font-mono)' }}>
           ← all posts
         </Link>
 
-        <header style={{ marginBottom: 40 }}>
-          <h1 style={{ fontSize: 28, fontWeight: 700, letterSpacing: '-0.03em', lineHeight: 1.25, margin: '0 0 16px', color: '#111' }}>
+        <header style={{ marginBottom: 48, paddingBottom: 32, borderBottom: '1px solid var(--border)' }}>
+          {post.tags.length > 0 && (
+            <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 18 }}>
+              {post.tags.map((tag) => (
+                <Link key={tag} href={`/?tag=${encodeURIComponent(tag)}`} style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--accent)', background: 'var(--accent-soft)', padding: '3px 9px', borderRadius: 4, textDecoration: 'none', fontWeight: 600, letterSpacing: '0.02em' }}>
+                  {tag}
+                </Link>
+              ))}
+            </div>
+          )}
+          <h1 style={{ fontSize: 40, fontWeight: 800, letterSpacing: '-0.04em', lineHeight: 1.12, margin: '0 0 24px', color: 'var(--ink)' }}>
             {post.title}
           </h1>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
-            {post.publishedAt && (
-              <time dateTime={post.publishedAt.toISOString()} style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: '#9ca3af' }}>
-                {formatDate(post.publishedAt)}
-              </time>
-            )}
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: '#9ca3af' }}>
-              {readingTime(post.content)} min read
-            </span>
-            {post.tags.length > 0 && (
-              <div style={{ display: 'flex', gap: 6 }}>
-                {post.tags.map((tag) => (
-                  <span key={tag} style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: '#6b7280', background: '#f3f4f6', padding: '2px 8px', borderRadius: 3 }}>
-                    {tag}
-                  </span>
-                ))}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'linear-gradient(135deg, var(--accent), #6d28d9)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: 14, flexShrink: 0, letterSpacing: '-0.02em' }}>
+              VD
+            </div>
+            <div>
+              <p style={{ margin: 0, fontSize: 14, fontWeight: 600, color: 'var(--ink)' }}>Vineet Daniel</p>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--faint)' }}>
+                {post.publishedAt && (
+                  <time dateTime={post.publishedAt.toISOString()}>{formatDate(post.publishedAt)}</time>
+                )}
+                <span>·</span>
+                <span>{readingTime(post.content)} min read</span>
               </div>
-            )}
+            </div>
           </div>
         </header>
 
         <PostContent content={post.content} />
 
         <ShareButtons url={url} title={post.title} />
+
+        {/* Author block */}
+        <section style={{ marginTop: 48, paddingTop: 36, borderTop: '1px solid var(--border)', display: 'flex', gap: 18, alignItems: 'flex-start', flexWrap: 'wrap' }}>
+          <div style={{ width: 52, height: 52, borderRadius: '50%', background: 'linear-gradient(135deg, var(--accent), #6d28d9)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: 18, flexShrink: 0, letterSpacing: '-0.02em' }}>
+            VD
+          </div>
+          <div style={{ flex: 1, minWidth: 240 }}>
+            <p style={{ margin: '0 0 6px', fontWeight: 700, fontSize: 15, color: 'var(--ink)' }}>Vineet Daniel</p>
+            <p style={{ margin: 0, fontSize: 14.5, color: 'var(--body)', lineHeight: 1.65 }}>
+              CTO and technology generalist writing about engineering, product, AI, cyber security,
+              and scaling startups from early chaos to mature operations.
+            </p>
+            <div style={{ display: 'flex', gap: 16, marginTop: 12 }}>
+              <a href="https://twitter.com/vineetdaniel" target="_blank" rel="noopener noreferrer" className="link-accent" style={{ fontSize: 13, fontWeight: 600 }}>X / Twitter</a>
+              <a href="https://linkedin.com/in/vineetdaniel" target="_blank" rel="noopener noreferrer" className="link-accent" style={{ fontSize: 13, fontWeight: 600 }}>LinkedIn</a>
+            </div>
+          </div>
+        </section>
       </article>
     </>
   )
