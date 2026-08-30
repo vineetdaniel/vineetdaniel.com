@@ -1,0 +1,39 @@
+name: Daily auto-draft
+
+on:
+  # 03:30 UTC = 09:00 IST (Asia/Kolkata, no DST). Note: GitHub scheduled
+  # workflows can start a few minutes late under load.
+  schedule:
+    - cron: '30 3 * * *'
+  # Manual trigger from the Actions tab (works from the GitHub mobile app too).
+  workflow_dispatch:
+
+jobs:
+  draft:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Research, write, and save draft
+        env:
+          SITE_API_URL: ${{ vars.SITE_API_URL || 'https://www.vineetdaniel.com' }}
+          API_SECRET: ${{ secrets.API_SECRET }}
+          XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
+          XAI_MODEL: ${{ secrets.XAI_MODEL }}
+          OLLAMA_API_KEY: ${{ secrets.OLLAMA_API_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          NOTIFY_TO: ${{ vars.NOTIFY_TO || 'vineetdaniel@gmail.com' }}
+          NOTIFY_FROM: ${{ vars.NOTIFY_FROM }}
+        run: npm run agent:auto

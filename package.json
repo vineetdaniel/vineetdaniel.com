@@ -11,7 +11,9 @@
     "db:studio": "prisma studio",
     "agent:draft": "node --experimental-strip-types --env-file-if-exists=.env.local agents/draft-post.ts",
     "agent:audit": "node --experimental-strip-types --env-file-if-exists=.env.local agents/audit.ts",
-    "agent:reformat": "node --experimental-strip-types --env-file-if-exists=.env.local agents/reformat-post.ts"
+    "agent:reformat": "node --experimental-strip-types --env-file-if-exists=.env.local agents/reformat-post.ts",
+    "agent:auto": "node --experimental-strip-types agents/auto-draft.ts",
+    "agent:auto:local": "node --experimental-strip-types --env-file-if-exists=.env.local agents/auto-draft.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.19.3",
