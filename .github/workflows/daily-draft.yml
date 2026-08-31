@@ -1,10 +1,10 @@
 name: Daily auto-draft
 
 on:
-  # 03:30 UTC = 09:00 IST (Asia/Kolkata, no DST). Note: GitHub scheduled
-  # workflows can start a few minutes late under load.
+  # 03:33 UTC = 09:03 IST (Asia/Kolkata, no DST). Note: GitHub scheduled
+  # workflows are best-effort and often start 20-60 min late; this is normal.
   schedule:
-    - cron: '30 3 * * *'
+    - cron: '33 3 * * *'
   # Manual trigger from the Actions tab (works from the GitHub mobile app too).
   workflow_dispatch:
 
