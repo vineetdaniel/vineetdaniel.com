@@ -37,7 +37,8 @@ export async function PATCH(request: NextRequest, { params }: { params: Params }
     data.published = body.published
     // If turning on publish without an explicit date and none set yet, default to now.
     if (body.published && !existing.publishedAt && !publishedAtProvided) {
-      data.publishedAt = new Date()
+      // Keep the article's original writing date (createdAt), not the publish moment.
+      data.publishedAt = existing.createdAt ?? new Date()
     }
   }
 

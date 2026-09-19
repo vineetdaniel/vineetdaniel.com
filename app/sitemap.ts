@@ -1,6 +1,10 @@
 import type { MetadataRoute } from 'next'
 import { db, publiclyVisible } from '@/lib/db'
 
+// Always query at request time — new posts appear without a redeploy.
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.vineetdaniel.com'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

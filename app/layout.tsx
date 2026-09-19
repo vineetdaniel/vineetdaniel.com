@@ -1,11 +1,11 @@
 import type { Metadata } from 'next'
-import { Geist, JetBrains_Mono } from 'next/font/google'
+import { Rethink_Sans, DM_Mono } from 'next/font/google'
 import Link from 'next/link'
 import { CookieConsent } from '@/components/CookieConsent'
 import './globals.css'
 
-const geist = Geist({ subsets: ['latin'], variable: '--font-geist' })
-const mono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono' })
+const sans = Rethink_Sans({ subsets: ['latin'], variable: '--font-sans-var' })
+const mono = DM_Mono({ subsets: ['latin'], weight: ['400', '500'], variable: '--font-mono-var' })
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.vineetdaniel.com'
 
@@ -66,7 +66,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${geist.variable} ${mono.variable}`}>
+    <html lang="en" className={`${sans.variable} ${mono.variable}`}>
       <head>
         <script
           type="application/ld+json"
@@ -109,43 +109,41 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }}
         />
       </head>
-      <body style={{ fontFamily: 'var(--font-geist), system-ui, sans-serif', backgroundColor: 'var(--bg)', color: 'var(--ink)', margin: 0 }}>
-        {/* Thin accent bar */}
-        <div style={{ height: 3, background: 'linear-gradient(90deg, var(--accent) 0%, #6d28d9 100%)' }} />
-
-        {/* Masthead */}
-        <header style={{ borderBottom: '1px solid var(--border)', background: 'var(--bg)' }}>
-          <div style={{ maxWidth: 1000, margin: '0 auto', padding: '22px 32px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 24 }}>
-            <div>
-              <Link href="/" style={{ fontWeight: 800, fontSize: 19, color: 'var(--ink)', textDecoration: 'none', letterSpacing: '-0.03em', display: 'block' }}>
+      <body style={{ fontFamily: 'var(--font-sans-var), system-ui, sans-serif', backgroundColor: 'var(--bg)', color: 'var(--ink)', margin: 0 }}>
+        {/* Masthead — bordered section like Prism nav */}
+        <header style={{ borderBottom: '1px solid var(--border)' }}>
+          <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px', display: 'flex', alignItems: 'stretch', justifyContent: 'space-between', gap: 24 }}>
+            <div style={{ padding: '20px 24px 20px 0', borderRight: '1px solid var(--border-soft)' }}>
+              <Link href="/" style={{ fontWeight: 700, fontSize: 18, color: 'var(--ink)', textDecoration: 'none', letterSpacing: '-0.02em', display: 'block' }}>
                 Vineet Daniel
               </Link>
-              <p style={{ margin: '3px 0 0', fontSize: 12.5, color: 'var(--muted)', letterSpacing: '0.01em', lineHeight: 1.4 }}>
-                CTO · technology generalist · scaling teams and systems
+              <p className="mono" style={{ margin: '2px 0 0', fontSize: 11, color: 'var(--muted)' }}>
+                cto · generalist · scaling systems
               </p>
             </div>
-            <nav style={{ display: 'flex', gap: 26, flexShrink: 0, alignItems: 'center' }}>
-              <Link href="/" className="nav-link" style={{ fontSize: 14, color: 'var(--body)', textDecoration: 'none', fontWeight: 500 }}>Writing</Link>
-              <a href="https://twitter.com/vineetdaniel" target="_blank" rel="noopener noreferrer" className="nav-link" style={{ fontSize: 14, color: 'var(--body)', textDecoration: 'none', fontWeight: 500 }}>X</a>
-              <a href="https://linkedin.com/in/vineetdaniel" target="_blank" rel="noopener noreferrer" className="nav-link" style={{ fontSize: 14, color: 'var(--body)', textDecoration: 'none', fontWeight: 500 }}>LinkedIn</a>
+            <nav style={{ display: 'flex', gap: 28, flexShrink: 0, alignItems: 'center' }}>
+              <Link href="/" className="nav-link mono" style={{ fontSize: 13, color: 'var(--body)', textDecoration: 'none' }}>Writing</Link>
+              <a href="https://twitter.com/vineetdaniel" target="_blank" rel="noopener noreferrer" className="nav-link mono" style={{ fontSize: 13, color: 'var(--body)', textDecoration: 'none' }}>X</a>
+              <a href="https://linkedin.com/in/vineetdaniel" target="_blank" rel="noopener noreferrer" className="nav-link mono" style={{ fontSize: 13, color: 'var(--body)', textDecoration: 'none' }}>LinkedIn</a>
             </nav>
           </div>
         </header>
 
-        <main style={{ maxWidth: 1000, margin: '0 auto', padding: '0 32px', minHeight: 'calc(100vh - 200px)', paddingTop: 56 }}>
+        <main style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px', minHeight: 'calc(100vh - 200px)' }}>
           {children}
         </main>
 
-        <footer style={{ borderTop: '1px solid var(--border)', marginTop: 88, background: 'var(--surface)' }}>
-          <div style={{ maxWidth: 1000, margin: '0 auto', padding: '32px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 20, flexWrap: 'wrap' }}>
-            <p style={{ fontSize: 13, color: 'var(--faint)', margin: 0, lineHeight: 1.6 }}>
-              © {new Date().getFullYear()} Vineet Daniel · Written from the field.
+        <footer style={{ borderTop: '1px solid var(--border)', marginTop: 0 }}>
+          <div className="striped" style={{ height: 40, borderBottom: '1px solid var(--border)' }} />
+          <div style={{ maxWidth: 1200, margin: '0 auto', padding: '28px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 20, flexWrap: 'wrap' }}>
+            <p className="mono" style={{ fontSize: 12, color: 'var(--muted)', margin: 0 }}>
+              © {new Date().getFullYear()} Vineet Daniel — written from the field
             </p>
-            <p style={{ fontSize: 13, color: 'var(--faint)', margin: 0, display: 'flex', gap: 14 }}>
-              <a href="https://twitter.com/vineetdaniel" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--faint)', textDecoration: 'none' }}>X</a>
-              <a href="https://linkedin.com/in/vineetdaniel" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--faint)', textDecoration: 'none' }}>LinkedIn</a>
-              <a href="/api/posts" style={{ color: 'var(--faint)', textDecoration: 'none' }}>API</a>
-              <a href="/sitemap.xml" style={{ color: 'var(--faint)', textDecoration: 'none' }}>Sitemap</a>
+            <p className="mono" style={{ fontSize: 12, color: 'var(--muted)', margin: 0, display: 'flex', gap: 16 }}>
+              <a href="https://twitter.com/vineetdaniel" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--muted)', textDecoration: 'none' }}>x</a>
+              <a href="https://linkedin.com/in/vineetdaniel" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--muted)', textDecoration: 'none' }}>linkedin</a>
+              <a href="/api/posts" style={{ color: 'var(--muted)', textDecoration: 'none' }}>api</a>
+              <a href="/sitemap.xml" style={{ color: 'var(--muted)', textDecoration: 'none' }}>sitemap</a>
             </p>
           </div>
         </footer>
